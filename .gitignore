@@ -1,0 +1,14 @@
+# use glob syntax.
+syntax: glob
+*.ser
+*.class
+*~
+*.bak
+*.off
+*.old
+*.log
+*.err
+*.swp
+*.cache
+/nbproject
+

@@ -4,10 +4,44 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>我的博客</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/css/all.css" />
+        <link rel="stylesheet" href="/css/index.css" />
     </head>
 <body>
-    <h3>this my blog</h3>
-
+    <!-- 头像 -->
+    <div id="header">
+        <img src="/img/header.jpg" />
+    </div>
+    
+    <div id="loading"></div>
+    
+    <div id="main-nav">
+        <a class="link right" href="/writting/">文 抄</a>
+        <a class="link left" href="/photo/">掠 影</a>
+        <!-- <a class="link bottom" href="/photo">乱 语</a> -->
+    </div>
+    
+    <!-- 文字 -->
+    <div id="writting" class="viewport">
+        <ul class="nav">
+            <li><a class="link" href="/writting/craftsmen">攻城简册</a></li>
+            <li><a class="link" href="/writting/ronin">浪人手札</a></li>
+        </ul>
+        <div class="content"></div>
+    </div>
+    
+    <!-- 摄影 -->
+    <div id="photo" class="viewport">
+        
+    </div>
+    
+    <script type="text/javascript" src="/js/underscorejs.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/backbone.js"></script>
+    <script type="text/javascript" src="/js/a.js"></script>
+    <script type="text/javascript" src="/js/init.js"></script>
 </body>
 </html>
+
 

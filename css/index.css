@@ -1,0 +1,106 @@
+
+.viewport {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#loading {
+    background: url(../img/loading.gif);
+    background-position: center;
+    position: fixed;
+    width: 34px;
+    height: 34px;
+    top: 50%;
+    left: 50%;
+    margin: 40px 0px 0px -17px;
+}
+
+#main-nav {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -150px;
+    display: none;
+}
+
+#main-nav .link {
+    word-spacing: 5px;
+    display: block;
+    position: absolute;
+    padding: 2px 5px;
+    line-height: 30px;
+}
+
+#main-nav .right {
+    left: 200px;
+    top: 135px;
+}
+
+#main-nav .left {
+    right: 200px;
+    top: 135px;
+}
+
+#main-nav .bottom {
+    top: 200px;
+    left: 135px;
+    width: 5px;
+}
+
+#header {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    margin-top: -30px;
+    margin-left: -30px;
+    top: 50%;
+    left: 50%;
+    border: 1px #ccc solid;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+    background: #fff;
+}
+
+#header img {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    margin: 3px;
+}
+
+#writting {
+    display: none;
+}
+
+#writting .nav {
+    display: block;
+    margin: 0px;
+    padding: 15px 0px 10px 130px;
+    height: 28px;
+    border-bottom: 1px #dfdfdf dashed;
+    
+}
+
+#writting .nav li {
+    display: block;
+    float: left;
+    margin: 0px 20px;
+}
+
+#writting .nav a {
+    
+}
+
+#writting .content {
+    position: relative;
+}
+
+#photo {
+    display: none;
+}
+
