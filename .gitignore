@@ -12,3 +12,4 @@ syntax: glob
 *.cache
 /nbproject
 .project
+_site
