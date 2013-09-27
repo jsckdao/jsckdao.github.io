@@ -11,4 +11,4 @@ syntax: glob
 *.swp
 *.cache
 /nbproject
-
+.project
