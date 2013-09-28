@@ -154,6 +154,7 @@
                 }) 
                 currentView = targetView 
             }
+            else other && other()
         } 
 
         // 主页路由
@@ -165,7 +166,7 @@
         }) 
         
         // 文抄页路由
-        app.route(/^(writting\/[\w\/\.]*)$/, function(path) {
+        app.route(/^(writting\/[\w\/\.\-]*)$/, function(path) {
             changeView(writtingView, {
                 left: '90px',
                 top: '40px'
@@ -175,7 +176,7 @@
         }) 
         
         // 掠影页路由
-        app.route(/^(photo\/[\w\/\.]*)$/, function(path) {
+        app.route(/^(photo\/[\w\/\.\-]*)$/, function(path) {
             
         }) 
         

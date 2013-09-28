@@ -7,6 +7,10 @@ jQuery(function() {
         // 检查是否是内部链接
         if (i >= 0) {
             this.href = origin + '#' + h.substring(origin.length);
+            this.target = "_top";
+        }
+        else {
+        	this.target = "_blank";
         }
     })
 });
