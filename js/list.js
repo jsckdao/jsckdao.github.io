@@ -30,27 +30,29 @@
         setStorage(datas)
     } 
     
+    // 初始化标签列表
+    function initList() {
+        
+    }
+    
+    $(function() {
+        $('.blog-list li').each(function() {
+            var li = $(this), a = li.find('a')
+
+            li.append('<em>' + a.data('date') + '</em>')
+            li.append('<em>' + a.data('tag') + '</em>')
+        })
+    })
+    
     // 显示文章信息
     $(function() {
         var blogList = $('.blog-list'),
-            tlist = $('tag-list');
-        if (blogList.length > 0 && tlist.length.length > 0) {
+            tlist = $('.tag-list');
+        if (blogList.length > 0 && tlist.length > 0) {
             if (!writtings) {
                 extractData(document.body)
             } 
-
-            $('.blog-list li').each(function() {
-                var li = $(this),
-                    a = li.find('a')
-                
-                li.append('<em>' + a.data('date') + '</em>')
-                li.append('<em>' + a.data('tag') + '</em>')
-            })
-            
-            
-            
         }
-        
     })
     
     
@@ -59,6 +61,15 @@
         var tlist = $('tag-list-sync')
         if (tlist.length > 0) {
             if (writtings) {
+                var href = location.href
+                $.ajax({
+                    url: href.substring(0, href.lastIndexOf('/')),
+                    success: function(text) {
+                        extractData(text)
+                    }
+                })
+            }
+            else {
                 
             }
         } 
