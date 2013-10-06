@@ -8,6 +8,11 @@ a {
     color: #480;
 }
 
+em {
+	color: #aaa;
+    margin-right: 30px;
+}
+
 .link {
     font-family: KaiTi;
     font-weight: bold;

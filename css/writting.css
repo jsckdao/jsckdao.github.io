@@ -22,11 +22,6 @@
 	margin-left: 760px;
 }
 
-.blog em {
-	color: #aaa;
-	margin-right: 30px;
-}
-
 .blog .info {
 	border-bottom: 1px #aaa dashed;
 	margin: 3px 0px;
@@ -48,4 +43,9 @@
 	display: block;
 	padding: 5px;
 	border-bottom: 1px #aaa dashed;
+}
+
+.blog-list li em {
+	float: right;
+	margin: 0px 30px;
 }
