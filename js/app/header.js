@@ -7,7 +7,7 @@ define(function(require, exports, module) {
         el: '#header',
         
         move: function(option) {
-            $(this.el).animate(option) 
+            $(this.el).animate(option); 
         }
-    }) 
-})
+    }); 
+});

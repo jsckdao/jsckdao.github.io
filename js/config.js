@@ -4,6 +4,6 @@ seajs.config({
         'backbone': 'backbone.js'
     },
     preload: ['jquery']
-})
+});
 
-seajs.use(['a.js', 'app/routes.js'])
+seajs.use(['a.js', 'app/routes.js']);

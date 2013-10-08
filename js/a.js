@@ -14,12 +14,12 @@
             else {
                 this.target = "_blank";
             }
-        })
-    }
+        });
+    };
     
     // 页面加载完成后, 全页处理
     $(function() {
-        $.changeLink(document.body)
-    })
+        $.changeLink(document.body);
+    });
     
-})(jQuery)
+})(jQuery);

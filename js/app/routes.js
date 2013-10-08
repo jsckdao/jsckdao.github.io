@@ -11,39 +11,39 @@ define(function(require, exports, module) {
         el: '#loading',
         
         hide: function(callback) {
-            $(this.el).hide() 
-            callback && callback() 
+            $(this.el).hide(); 
+            callback && callback(); 
         }
-    }) 
+    }); 
     
     $(function() {
         // 视图初始化
-        var header = new HeaderView() 
-        var currentView = new LoadingView() 
-        var mainnavView = new MainNavView() 
-        var writtingView = new WrittingView() 
+        var header = new HeaderView(); 
+        var currentView = new LoadingView(); 
+        var mainnavView = new MainNavView(); 
+        var writtingView = new WrittingView(); 
         
-        var app = BB.history 
+        var app = BB.history; 
         
         var changeView = function(targetView, headerOp, other) {
             if (currentView !== targetView) {
                 currentView.hide(function() {
-                    header.move(headerOp) 
-                    targetView.show() 
-                    other && other() 
-                }) 
-                currentView = targetView 
+                    header.move(headerOp); 
+                    targetView.show(); 
+                    other && other(); 
+                }); 
+                currentView = targetView; 
             }
-            else other && other()
-        } 
+            else other && other();
+        }; 
 
         // 主页路由
         app.route(/^$/, function() {
             changeView(mainnavView, {
                 left: '50%',
                 top: '50%'
-            }) 
-        }) 
+            }); 
+        }); 
         
         // 文抄页路由
         app.route(/^(writting\/[\w\/\.\-]*)$/, function(path) {
@@ -51,20 +51,20 @@ define(function(require, exports, module) {
                 left: '90px',
                 top: '40px'
             }, function() {
-                writtingView.nav(path) 
-            }) 
-        }) 
+                writtingView.nav(path); 
+            }); 
+        }); 
         
         // 掠影页路由
         app.route(/^(photo\/[\w\/\.\-]*)$/, function(path) {
             
-        }) 
+        }); 
         
         // 当发现没有的匹配路径, 导航到首页
         app.on('nomatched', function(hash) {
-            BB.history.navigate('') 
-        }) 
+            BB.history.navigate(''); 
+        }); 
         
-        app.start({ pushState: false }) 
-    })   
-})
+        app.start({ pushState: false }); 
+    });   
+});

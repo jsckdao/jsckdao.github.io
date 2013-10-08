@@ -1575,8 +1575,8 @@
   
   if (typeof window.define == 'function') {
       define(function(require, exports, module) {
-          module.exports = Backbone
-      })
+          module.exports = Backbone;
+      });
   }
 
 }).call(this);

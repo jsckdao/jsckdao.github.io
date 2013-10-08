@@ -7,11 +7,11 @@ define(function(require, exports, module) {
         el: '#main-nav',
         
         show: function() {
-            $(this.el).fadeIn() 
+            $(this.el).fadeIn();
         },
                 
         hide: function(callback) {
-            $(this.el).fadeOut(callback) 
+            $(this.el).fadeOut(callback);
         }
-    }) 
-})
+    });
+});
