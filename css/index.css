@@ -126,3 +126,28 @@
     display: none;
 }
 
+#photo .albums-box {
+	position: absolute;
+	left: 150px;
+	width: 900px;
+	height: 100%;
+	padding: 30px 0px;
+}
+
+#photo .albums-box .shelf {
+	padding: 10px;
+	border-bottom: 1px dashed #aaa; 
+	overflow: auto;
+}
+
+#photo .albums-box img {
+	float: left;
+	border-radius: 5px;
+}
+
+#photo .albums-box .ph-text {
+	margin-left: 30px;
+	padding: 30px 0px;
+	float: left;
+}
+

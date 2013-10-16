@@ -3,6 +3,7 @@ define(function(require, exports, module) {
         BB = require('backbone'),
         HeaderView = require('./header.js'),
         MainNavView = require('./nav-view.js'),
+        PhotoView = require('./photo-view.js'),
         WrittingView = require('./writting-view.js');
     
     
@@ -22,6 +23,7 @@ define(function(require, exports, module) {
         var currentView = new LoadingView(); 
         var mainnavView = new MainNavView(); 
         var writtingView = new WrittingView(); 
+        var photoView = new PhotoView();
         
         var app = BB.history; 
         
@@ -58,6 +60,12 @@ define(function(require, exports, module) {
         // 掠影页路由
         app.route(/^(photo\/[\w\/\.\-]*)$/, function(path) {
             
+            changeView(photoView, {
+                bottom: '40px',
+                right: '90px'
+            }, function() {
+                photoView.nav(path);
+            });
         }); 
         
         // 当发现没有的匹配路径, 导航到首页
