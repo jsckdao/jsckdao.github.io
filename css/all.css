@@ -8,6 +8,11 @@ a {
     color: #480;
 }
 
+img {
+	padding: 0px;
+	margin: 0px;
+}
+
 em {
 	color: #aaa;
     margin-right: 30px;
@@ -19,3 +24,5 @@ em {
     font-size: 18px;
     color: black;
 }
+
+

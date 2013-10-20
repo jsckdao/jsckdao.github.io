@@ -6,43 +6,51 @@ define(function(require, exports, module) {
     var HeaderView = module.exports = BB.View.extend({
         el: '#header',
         
-        move: function(option) {
-            var el = this.element = $(this.el);
-            var offset = el.offset();
-            var cw = window.innerWidth || document.body.offsetWidth;
-            var ch = window.innerHeight || document.body.offsetWidth;
+        // 初始化
+        initialize: function(option) {
+            var self = this;
+            this.element = $(this.el);
+            this.bottom = this.right = null;
             
-            var ow = this.el.offsetWidth / 2 - 1;
-            var oh = this.el.offsetHeight / 2  - 1;
-            offset.left += ow;
-            offset.top += oh;
+            // 如果设定为 bottom 和 right 定位时, 须在窗体大小变换时自动适应
+            $(window).resize(function() {
+                var size = $.getWindowSize();
+                if (self.bottom != null) {
+                    self.element.css('top', (size.height - self.bottom) + 'px');
+                }
+                
+                if (self.right != null) {
+                    self.element.css('left', (size.width - self.right) + 'px');
+                }
+            });
+            
+            // 单击头像
+            this.element.click(function() {
+                
+            });
+        },
+        
+        // 头像移动
+        move: function(option) {
+            var el = this.element;
+            var self = this;
+            var size = $.getWindowSize();
             
             if (typeof option.left != 'undefined') {
-                el.css({
-                    left: offset.left + 'px',
-                    right: 'auto'
-                });
+                self.right = null;
             }
-            else if (typeof option.right != 'undefined') {
-                el.css({
-                    left: 'auto',
-                    right: (cw - offset.left - ow) + 'px'
-                });
+            else if (typeof option.right != 'undefined'){
+                self.right = parseFloat(option.right);
+                option.left = (size.width - self.right) + 'px';
             }
             
-            if (typeof option.bottom != 'undefined') {
-                el.css({
-                    top: 'auto',
-                    bottom: (ch - offset.top - oh) + 'px'
-                });
+            if (typeof option.top != 'undefined') {
+                self.bottom = null;
             }
-            else if (typeof option.top != 'undefined') {
-                el.css({
-                    top: offset.top + 'px',
-                    bottom: 'auto'
-                });
+            else if (typeof option.bottom != 'undefined') {
+                self.bottom = parseFloat(option.bottom);
+                option.top = (size.height - self.bottom) + 'px';
             }
-            
             el.animate(option); 
         }
     }); 

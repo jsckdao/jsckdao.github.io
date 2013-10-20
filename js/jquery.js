@@ -9787,8 +9787,8 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 
     if ( typeof define === "function") {
         define(function(require, exports, module) {
-            module.exports = jQuery
-        })
+            module.exports = jQuery;
+        });
     }
 }
 
@@ -9984,3 +9984,14 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
     };
 
 }(jQuery));
+
+
+(function($) {
+    // 获取整个浏览器窗口的大小
+    $.getWindowSize = function() {
+        return {
+            width: window.innerWidth || document.documentElement.clientWidth,
+            height: window.innerHeight || document.documentElement.clientHeight
+        };
+    };
+})(jQuery);
