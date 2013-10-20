@@ -25,7 +25,14 @@ define(function(require, exports, module) {
             });
             
             // 单击头像
-            this.element.click(function() {
+            this.element
+            .click(function() {
+                
+            })
+            .mouseover(function() {
+                
+            })
+            .mouseout(function() {
                 
             });
         },
@@ -52,6 +59,15 @@ define(function(require, exports, module) {
                 option.top = (size.height - self.bottom) + 'px';
             }
             el.animate(option); 
-        }
+        },
+        
+        // 展现对话框
+        showDialog: function(chat, forward) {
+            
+        },
+        
+        showBackBtn: function(forward) {
+            
+        } 
     }); 
 });
