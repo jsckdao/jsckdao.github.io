@@ -109,6 +109,11 @@ define(function(require, exports, module) {
         // 显示
         show : function(callback) {
             var el = $(this.el);
+            var self = this;
+            
+            self.trigger('beforeShow', self);
+            self.once('show', callback);
+            
             el.css({
                 'left' : '100%',
                 'top' : '0%',
@@ -116,7 +121,7 @@ define(function(require, exports, module) {
             }).animate({
                 'left' : '0%'
             }, function() {
-                callback && callback();
+                self.trigger('show', self);
             });
         },
 
@@ -124,13 +129,16 @@ define(function(require, exports, module) {
         hide : function(callback) {
             var el = $(this.el);
             var self = this;
+            
+            self.trigger('beforeHide', self);
+            self.once('hide', callback);
             el.animate({
                 left : '100%'
             }, function() {
                 el.hide();
                 self.currentFrame.remove();
                 self.currentPath = self.currentFrame = null;
-                callback && callback();
+                self.trigger('hide', self);
             });
         }
     });

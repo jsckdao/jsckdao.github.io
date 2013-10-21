@@ -19,14 +19,24 @@ html {
 	z-index: 6;
 }
 
-.back {
+.back-btn {
 	position: absolute;
+	display: block;
+	left: 7px;
+	top: 7px;
+	background: #000;
+	filter: alpha(opacity=80);
+	opacity: 0.8;
+	border-radius: 5px;
+	z-index: -1;
+}
+
+.back-btn a {
 	display: block;
 	width: 32px;
 	height: 32px;
-	background: url(../img/arrow.png);
-	border-radius: 5px;
-	z-index: 8;
+	margin: 7px;
+	background: url(../img/arrow32.png);
 }
 
 #loading {

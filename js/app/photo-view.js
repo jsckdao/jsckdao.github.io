@@ -164,6 +164,8 @@ define(function(require, exports, module) {
         show: function(callback) {
             var el = $(this.el);
             var self = this;
+            self.trigger('beforeShow', this);
+            self.once('show', callback);
             el.css({
                 left: '-100%',
                 top: '0%',
@@ -171,8 +173,7 @@ define(function(require, exports, module) {
             }).animate({
                 left: '0%'
             }, function() {
-                callback && callback();
-                
+                self.trigger('show', self);
                 self.loadPhotoIndex(function() {
                     self.startPaint();
                 });
@@ -181,12 +182,17 @@ define(function(require, exports, module) {
         
         // 版面关闭
         hide: function(callback) {
+            var self = this;
             var el = $(this.el);
+            
+            self.closePhoto();
+            self.trigger('beforeHide', self);
+            self.once('hide', callback);
             el.animate({
                 left: '-100%'
             }, function() {
                 el.hide();
-                callback && callback();
+                self.trigger('hide', self);
             });
         },
         
@@ -235,23 +241,35 @@ define(function(require, exports, module) {
             }
         },
         
+        // 查看器关闭操作, 清除所有对象
+        closePhoto: function() {
+            if (this.photoWatcher) {
+                $('.mask').remove();
+                this.photoWatcher.stopResize();
+                this.photoWatcher.remove();
+                this.currentPhoto = this.photoWatcher = null;
+                this.trigger('closePhoto', self);
+            }
+        },
+        
         // 放大展现图片
         showPhoto: function(imginfo, simg) {
             var self = this;
             var img = null, loading = null, oldimg = null;
             simg = $(simg);
+            
+            self.trigger('beforeShowPhoto', self, imginfo);
 
             // 构建图片查看器
             if (!self.photoWatcher) {
-                // 查看器关闭操作, 清除所有对象
-                var closeFn = function() {
-                    mask.remove();
-                    self.photoWatcher.stopResize();
-                    self.photoWatcher.remove();
-                    self.currentPhoto = self.photoWatcher = loading = null;
-                };
                 
-                var mask = $('<div class="mask" />').click(closeFn);;
+                self.on('closePhoto', function() {
+                    loading = null;
+                });
+                
+                var mask = $('<div class="mask" />').click(function() {
+                    self.closePhoto();
+                });
                 
                 $(document.body).append(mask);
                 
@@ -283,7 +301,9 @@ define(function(require, exports, module) {
                 };
                 
                 var closeBtn = $('<button class="close-btn">X</button>')
-                    .appendTo(this.photoWatcher).click(closeFn);
+                    .appendTo(this.photoWatcher).click(function() {
+                        self.closePhoto();
+                    });
                 
                 oldimg = simg.clone().css({
                     width: '100%',
@@ -343,6 +363,10 @@ define(function(require, exports, module) {
                         marginLeft: (- size.width / 2) + 'px',
                         marginTop: (- size.height / 2) + 'px'
                     }, 'slow', function() {
+                        if (!self.photoWatcher) {
+                            return;
+                        }
+                        
                         // 新图片展现
                         $(img).css({
                             display: 'none',
@@ -369,6 +393,8 @@ define(function(require, exports, module) {
                         .click(function() {
                             self.showPrevPhoto();
                         }).appendTo(self.photoWatcher);
+                        
+                        self.trigger('showPhoto', self, imginfo);
                     });
                 }
                 

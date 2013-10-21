@@ -25,8 +25,21 @@ define(function(require, exports, module) {
         var writtingView = new WrittingView(); 
         var photoView = new PhotoView();
         
+        photoView.on('show', function() {
+            header.backBtnForward = 'left';
+        }).on('hide', function() {
+            header.backBtnForward = null;
+        });
+        
+        writtingView.on('show', function() {
+            header.backBtnForward = 'right';
+        }).on('hide', function() {
+            header.backBtnForward = null;
+        });
+        
         var app = BB.history; 
         
+        // 视图切换
         var changeView = function(targetView, headerOp, other) {
             if (currentView !== targetView) {
                 currentView.hide(function() {
@@ -62,7 +75,7 @@ define(function(require, exports, module) {
             
             changeView(photoView, {
                 bottom: '40px',
-                right: '90px'
+                right: '140px'
             }, function() {
                 photoView.nav(path);
             });
