@@ -32,7 +32,12 @@ define(function(require, exports, module) {
             // 单击头像
             this.element
             .click(function() {
-                self.showDialog('理论上, 点击这里的时候应该会有一些很好玩的功能, 不过可惜, 这家伙太懒, 功能至今还不稳定, 暂未开放... o(︶︿︶\')o');
+                if (!self.dialog) {
+                    self.showDialog('理论上, 点击这里的时候应该会有一些很好玩的功能, 不过由于哥们太懒, 此功能至今还不稳定, 暂未开放... o(︶︿︶\')o');
+                }
+                else {
+                    self.closeDialog();
+                }
             })
             // 鼠标移入时显示返回按钮
             .mouseover(function(evt) {
@@ -78,14 +83,75 @@ define(function(require, exports, module) {
         
         // 展现对话框
         showDialog: function(chat) {
-            
+            var self = this;
+            if (!self.dialog) {
+                var a = self.dialogForward[0],
+                    b = self.dialogForward[1];
+                
+                var dialog = self.dialog = $('<div class="dialog" />')
+                    .html(chat)
+                    .click(function(evt) {
+                        evt.stopPropagation();
+                    });
+                
+                var arrow = self.dialog.arrow = $('<span><span /></span>')
+                    .appendTo(self.dialog);
+                
+                if (a == 't') {
+                    arrow.addClass('arrow-bottom');
+                    if (b == 'l') {
+                        dialog.addClass('dialog-tl');
+                        arrow.addClass('arrow-left');
+                    }
+                    else if (b == 'r') {
+                        dialog.addClass('dialog-tr');
+                        arrow.addClass('arrow-right');
+                    }
+                    else {
+                        dialog.addClass('dialog-tc');
+                        arrow.addClass('arrow-center');
+                    }
+                }
+                else if (a == 'b'){
+                    arrow.addClass('arrow-top');
+                    if (b == 'l') {
+                        dialog.addClass('dialog-bl');
+                        arrow.addClass('arrow-left');
+                    }
+                    else if (b == 'r') {
+                        dialog.addClass('dialog-br');
+                        arrow.addClass('arrow-right');
+                    }
+                    else {
+                        dialog.addClass('dialog-bc');
+                        arrow.addClass('arrow-center');
+                    }
+                }
+                else {
+                    self.dialog = null;
+                    return;
+                }
+                
+                self.dialog.appendTo(self.element).fadeIn(function() {
+                    self.trigger('showDialog', self);
+                });
+                
+            }
         },
         
         // 关闭对话框
         closeDialog: function() {
-            
+            var self = this;
+            if (self.dialog) {
+                self.dialog.fadeOut(function() {
+                    self.dialog.remove();
+                    self.dialog = null;
+                    self.trigger('closeDialog', self);
+                });
+            }
         },
         
+        // 显示返回按钮
         showBackBtn: function() {
             var self = this;
             if (!self.backBtnForward) {
@@ -96,7 +162,8 @@ define(function(require, exports, module) {
             if (!self.backBtn) {
                 self.backBtn = $('<div class="back-btn"></div>')
                 .appendTo(self.element)
-                .click(function() {
+                .click(function(evt) {
+                    evt.stopPropagation();
                     self.closeBackBtn();
                 });
                 
@@ -143,6 +210,7 @@ define(function(require, exports, module) {
             }
         },
         
+        // 关闭返回按钮
         closeBackBtn: function() {
             var self = this;
             if (self.backBtn) {

@@ -143,9 +143,19 @@ define(function(require, exports, module) {
         // 显示开始加载画面
         showLoading: function() {
             if (!this.loading) {
+                var self = this;
                 this.loading = this.createLoadingPanel();
                 this.loadingCount = 1;
                 this.loading.appendTo(document.body);
+                var _show = this.loading._show = function() {
+                    self.loading.show();
+                };
+                
+                var _hide = this.loading._hide = function() {
+                    self.loading.hide();
+                };
+                this.on('show', _show);
+                this.on('hide', _hide);
             }
             else {
                 this.loadingCount++;
@@ -155,6 +165,8 @@ define(function(require, exports, module) {
         // 关闭加载画面
         closeLoading: function() {
             if (--this.loadingCount < 1 && this.loading) {
+                this.off('show', this.loading._show);
+                this.off('hide', this.loading._hide);
                 this.loading.remove();
                 this.loading = null;
             }
@@ -246,6 +258,12 @@ define(function(require, exports, module) {
             if (this.photoWatcher) {
                 $('.mask').remove();
                 this.photoWatcher.stopResize();
+                // 清除正在加载的图片
+                if (this.photoWatcher.loadingImg) {
+                    var img = this.photoWatcher.loadingImg;
+                    img.onload = img.onerror = null;
+                    delete this.photoWatcher.loadingImg;
+                }
                 this.photoWatcher.remove();
                 this.currentPhoto = this.photoWatcher = null;
                 this.trigger('closePhoto', self);
@@ -267,6 +285,7 @@ define(function(require, exports, module) {
                     loading = null;
                 });
                 
+                // 遮罩效果
                 var mask = $('<div class="mask" />').click(function() {
                     self.closePhoto();
                 });
@@ -300,6 +319,7 @@ define(function(require, exports, module) {
                     $(window).unbind('resize', this.resizeListener);
                 };
                 
+                // 关闭按钮
                 var closeBtn = $('<button class="close-btn">X</button>')
                     .appendTo(this.photoWatcher).click(function() {
                         self.closePhoto();
@@ -325,13 +345,15 @@ define(function(require, exports, module) {
             }
             
             // 显示加载中
-            loading = this.createLoadingPanel().css({
+            loading = this.createLoadingPanel();
+            
+            loading.css({
                 position: 'absolute',
                 top: '50%',
                 marginTop: '-15px'
             }).appendTo(this.photoWatcher);
             
-            img = new Image();
+            img = self.photoWatcher.loadingImg = new Image();
             
             // 照片加载失败时
             img.onerror = function() {
@@ -401,6 +423,7 @@ define(function(require, exports, module) {
                 // 加载中的显示消失
                 if (loading) {
                     loading.remove();
+                    loading = null;
                 }
             };
             

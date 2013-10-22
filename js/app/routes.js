@@ -27,14 +27,24 @@ define(function(require, exports, module) {
         
         photoView.on('show', function() {
             header.backBtnForward = 'left';
+            header.dialogForward = 'tl';
         }).on('hide', function() {
             header.backBtnForward = null;
+            header.dialogForward = 'tc';
+            header.closeDialog();
         });
         
         writtingView.on('show', function() {
             header.backBtnForward = 'right';
+            header.dialogForward = 'br';
         }).on('hide', function() {
             header.backBtnForward = null;
+            header.dialogForward = 'tc';
+            header.closeDialog();
+        });
+        
+        mainnavView.on('hide', function() {
+            header.closeDialog();
         });
         
         var app = BB.history; 
@@ -75,7 +85,7 @@ define(function(require, exports, module) {
             
             changeView(photoView, {
                 bottom: '40px',
-                right: '140px'
+                right: '120px'
             }, function() {
                 photoView.nav(path);
             });

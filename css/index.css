@@ -107,6 +107,59 @@ html {
     margin: 3px;
 }
 
+#header .dialog {
+	position: absolute;
+	width: 240px;
+	min-height: 100px;
+	border: 1px solid #aaa;
+	-moz-box-shadow: 1px 2px 4px #ddd;
+    -webkit-box-shadow: 2px 3px 4px #ddd;
+    box-shadow: 1px 2px 4px #ddd;
+	border-radius:10px;
+	line-height: 20px;
+	padding: 5px;
+	color: #666;
+	font-size: 12px;
+	left: 50%;
+	bottom: 75px; 
+	margin-left: -120px;
+	background: white;
+	display: none;
+}
+
+#header .dialog-tl {
+	left: auto;
+	margin-left: 0px;
+	right: 0px;
+}
+
+#header .dialog-tr {
+	left: 0px;
+	margin-left: 0px;
+	right: auto;
+}
+
+#header .dialog-bl {
+	bottom: auto;
+	top: 75px;
+	left: auto;
+	margin-left: 0px;
+	right: 0px;
+}
+
+#header .dialog-br {
+	bottom: auto;
+	top: 75px;
+	left: 0px;
+	margin-left: 0px;
+	right: auto;
+}
+
+#header .dialog-bc {
+	bottom: auto;
+	top: 70px;
+}
+
 #writting {
     display: none;
 }
@@ -169,7 +222,6 @@ html {
 #photo .photo-box {
 	margin-left: 150px;
 	width: 800px;
-	height: 100%;
 	padding: 30px 0px;
 }
 
@@ -213,8 +265,6 @@ html {
 	cursor: pointer;
 	z-index: 7;
 }
-
-
 
 .photo-watch .page-btn {
 	display: block;

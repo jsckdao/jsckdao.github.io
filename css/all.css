@@ -25,4 +25,59 @@ em {
     color: black;
 }
 
+.arrow-bottom {
+	width:0px;
+	height:0px;
+	border-style: solid;
+	border-width: 10px;
+	border-color: #ddd transparent transparent transparent ;
+	position: absolute;
+	bottom: -20px;
+	margin-left: -15px;
+	left: 50%;
+}
 
+.arrow-bottom span {
+	width:0px;
+	height:0px;
+	border-style: solid;
+	border-width: 10px;
+	border-color: #fff transparent transparent transparent ;
+	position: absolute;
+	top: -12px;
+	left: -10px;
+}
+
+.arrow-top {
+	width:0px;
+	height:0px;
+	border-style: solid;
+	border-width: 10px;
+	border-color: transparent transparent #ddd transparent ;
+	position: absolute;
+	top: -20px;
+	margin-left: -15px;
+	left: 50%;
+}
+
+.arrow-top span {
+	width:0px;
+	height:0px;
+	border-style: solid;
+	border-width: 10px;
+	border-color: transparent transparent #fff transparent ;
+	position: absolute;
+	bottom: -12px;
+	left: -10px;
+}
+
+.arrow-right {
+	left: 20px;
+	margin-left: 0px;
+}
+
+.arrow-left {
+	left: auto;
+	right: 20px;
+	margin-left: 0px;
+}
