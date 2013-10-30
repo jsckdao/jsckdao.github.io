@@ -9,14 +9,52 @@ keywords: javascript,js
 <div>
     <p>关于这篇博客我该说些什么呢？</p>
     <p>其实它早就应该上线了, 弄这么一个玩意好像也没啥破事要功夫,
-     可说来惭愧, 我就是因为各种破事来回折腾了两三年, 试遍了各种技术来开发这个小博客. 
-     作为一个重度网络患者, 一个blog 就相当我的一身装束, 
-     总不能叫我穿个裤衩去泡妹子吧... <a href="">所以人靠衣装</a>, 屌丝猿靠技术装, 一版代码当然是
-     不能马虎, 结果</p>
+     可说来惭愧, 我就是因为各种破事来回折腾了两三年, 重新设计了很多次,
+     我还真不是一个盯着一件事就可以做到底的人, 为此付出了挺多... 不管怎么样,  
+     能做出一个有点个性的小站就是种胜利.</p>
+     <p>话说最早做这个东西主要是当时正在学习 backbone, 是作为一个习作而开始的,
+        后来又发现在 github上写博客会很酷, 于是整个小站做下来 backbone 的优势
+        根本发挥不出来, 因为大部分都是静态页面, 没有数据操作的必要, 一个没有Model
+        的MVC怎么看都有点怪. 所以这个小站也没太多的技术含量, 无非就是通过jquery
+        操作一些动画效果而已, 唯一感觉有点独创性的地方就是在整个小站高度动态化
+        的情况下对SEO的支持.</p>
+     <p>说实在的, 我对SEO了解的不多, 我只能站在一个程序员角度用评估一个抓取程序对
+        这个网页的分析难易程度来判断这个网页是否对搜索引擎友好. 所以如果你愿意查看
+        我的源代码的话, 会发现所有的链接都是老老实实写在页面里的, 不是通过js生成. 
+        但是用户访问页面的时候会让所有的内容在单页显示, 这样就可以用程序控制整个内容的
+        变化, 做出很多动画效果. 为了达到这个目的, 我首先是在所有的页面中插入一段js:
      <pre class="prettyprint lang-javascript">
-     var od = function() {
-        var o = ['fsdf', 'fss']
-     };
+//转换页面中所有的站内链接, 把链接前加入#号
+(function($) {
+    $(function() {
+        var origin = location.origin
+                || (location.protocol + '//' + location.host);
+        
+        $(context).find('a').each(function() {
+            var h = this.href;
+            var i = h.indexOf(origin);
+            // 检查是否是内部链接
+            if (i >= 0) {
+                this.href = origin + '#' + h.substring(origin.length);
+                this.target = "_top";
+            }
+            else {
+                this.target = "_blank";
+            }
+        });
+    });
+})(jQuery);
      </pre>
-     <p>我去</p>
+     <p>这一段代码的目的实际上就是将页面中所有的内部链接的host与path之间加入
+        一个#号, 比如把: <br /> 
+        <span style="color: blue;">http://jsckdao.org/some/path.html</span><br />
+        转换为: <br />
+        <span style="color: blue;">http://jsckdao.org#/some/path.html</span><br />
+        这样所有的链接被点击之后实际上都是导向了主页面, 所有的js 操作都是在这里完成.
+        在主页面中, 通过侦听 onhashchange事件来判断#号后面的部分是否有变化,
+        也就是否有链接的跳转, 然后做出一些动画效果来变换内容. onhashchange 事件实际上
+        已经被 backbone的路由功能封装好了, 可以直接用.
+    </p>
+    <p>在页面动画跳转的同时获取当前的location.hash, 也就是/some/path.html 部分, 
+        然后生成一个iframe, 通过iframe去展现这些内容页面. </p>
 </div>
