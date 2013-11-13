@@ -25,23 +25,32 @@ define(function(require, exports, module) {
         var writtingView = new WrittingView(); 
         var photoView = new PhotoView();
         
+        // 相片视图的事件
         photoView.on('show', function() {
             header.backBtnForward = 'left';
             header.dialogForward = 'tl';
-        }).on('hide', function() {
+        })
+        .on('beforeHide', function() {
             header.backBtnForward = null;
+        })
+        .on('hide', function() {
             header.dialogForward = 'tc';
             header.closeDialog();
         });
         
+        // 文抄视图事件
         writtingView.on('show', function() {
             header.backBtnForward = 'right';
             header.dialogForward = 'br';
-        }).on('hide', function() {
+        })
+        .on('beforeHide', function() {
             header.backBtnForward = null;
+        })
+        .on('hide', function() {
             header.dialogForward = 'tc';
             header.closeDialog();
         });
+        
         
         mainnavView.on('hide', function() {
             header.closeDialog();
