@@ -28,6 +28,11 @@
 	padding: 3px 0px;
 }
 
+.blog .comment {
+	border-top: 1px #aaa dashed;
+	padding: 3px;
+}
+
 .blog p {
 	text-indent: 40px;
 	line-height: 24px;

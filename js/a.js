@@ -43,6 +43,17 @@ var _S = _IE == 8;
         $.changeLink(document.body);
     });
 
+    // 加载评论模块
+    $(function() {
+        $('#comment-open').click(function() {
+            $(this).html('加载中...');
+            $('<script />').attr({
+                type: 'text/javascript',
+                src: 'http://jsckdaome.disqus.com/embed.js'
+            }).appendTo($(this).parent());
+        })
+    });
+
 })(jQuery);
 
 
