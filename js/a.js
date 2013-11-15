@@ -50,7 +50,7 @@ var _S = _IE == 8;
             $('<script />').attr({
                 type: 'text/javascript',
                 src: 'http://jsckdaome.disqus.com/embed.js'
-            }).appendTo($(this).parent());
+            }).appendTo(document.body);
         })
     });
 
