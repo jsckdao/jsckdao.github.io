@@ -46,14 +46,11 @@ var _S = _IE == 8;
     // 加载评论模块
     $(function() {
         $('#comment-open').click(function() {
-            var a = $(this).html('加载中...');
+            $(this).remove();
             $('<script />').attr({
                 type: 'text/javascript',
                 async: 'true',
                 src: 'http://jsckdaome.disqus.com/embed.js'
-            })
-            .load(function() {
-                a.remove();
             })
             .appendTo(document.body);
         });
