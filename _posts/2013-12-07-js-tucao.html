@@ -1,0 +1,118 @@
+---
+layout: artisan
+categories: artisan
+title: javascript吐槽点汇总
+city: 厦门
+weather: 阴
+keywords: js, javascript, 吐槽, 坑爹, 总结
+excerpt: 摸着良心说, javascript 确实是种设计得很二逼的语言, 无论是语言设计本身的一些细节, 还是各种浏览器之间奇奇怪怪的行为差异, 总有机会让人爆粗口... 说二逼这倒不是贬低, 毕竟二逼青年欢乐多.
+---
+<div>
+<p>摸着良心说, javascript 确实是种设计得很二逼的语言, 无论是语言设计本身的缺陷,
+ 还是各种浏览器之间奇奇怪怪的行为差异, 总有机会让人爆粗口... 说二逼这倒不是贬低, 毕竟二逼青年欢乐多, 
+ 工作中倒是给我留下了不少有趣的记忆. 这里我记录一下我工作中所遇到过的细节问题, 以后有新的问题也会持续
+ 更新.<p>
+<p>当然, 这些只是根据我的个人经历总结的, 当然某些小伙伴编码习惯比我好, 我所遇到的问题在他们眼里都不是问题, 
+也许幸运的你也在其中.</p>
+
+<h3>数字即字符, 对象即数组</h3>
+<p>== 与 === 的区别大多数人都知道, == 可以在判断之前自动做类型的转换, 所以"123" == 123 是会返回true的,
+甚至null, 0, 空字符串在它看来都是一样的, 而 === 就要严格的多了.</p>
+<pre class="prettyprint javascript">
+(function(undefined) {
+	console.log(undefined == null);  // true
+	console.log(undefined === null);  // false
+	
+	console.log(null == 0);  // true
+	console.log(null === 0);  // false
+	
+	console.log(0 == '');   // true
+	console.log(0 === '');  // false
+})();
+</pre>
+<p>当然最让我觉得有点不可思议的就是用字符和数字访问数组效果是等同的, 比如 array[0] 与 array['0']效果也是一样的, 
+现在感觉好像也没什么大不了的了, 但我当初学习的时候可是因为这个在一个问题上卡了一些时间的. 后来深入进去发现, 实际上数组
+也是普通的对象, 其内部的值说到底不过就是对象的属性而已. 所以传入的下标无论是什么类型, 都会被调用其toString 方法, 
+返回的字符就是属性名, 对象会查找自己是否有这个属性, 然后返回数据.</p>
+<p>然而, js中所有的东西都有 toString　方法, 于是, 我们就可以写出很多诡异的代码了:</p>
+<pre class="prettyprint javascript">
+var arr = new Array();	// 如果把 arr 换成一个普通对象, 情况也一样
+
+arr[null] = 1;		// 实际等同于 arr["null"]
+arr[{}] = 2;		// 实际等同于 arr["[object Object]"] = 2
+arr[{ a: 312 }] = 3;	// 同上
+arr[function() { alert(); }] = 4;
+
+arr[arr] = 5;	// 这个么, 自己去试试吧, 嘿嘿
+
+console.log(arr[null]);
+console.log(arr[null] === arr['null']);		// true
+console.log(arr[{}] === arr[{ a: 312 }]);	// true
+</pre>
+<h3>Array 的 length会骗人</h3>
+<p>大家都知道, js 的数组在很多种情况下 length 返回的都不是真实有效的数据长度, 比如 new Array(3), 创造的数组
+尽管就是个空壳, 但length还就真等于3. 如果给一个数组直接设值的话, 或直接delete的话, length要么不变要么乱变, 
+总之就是和你想象得不一样. 所以我为了让 length 能够更准确的反映出数组中的真实情况, 我一般习惯于用字面量构造数组并初始化
+数据, 并只用 push, pop, shift, unshift, splice 增加和移除内容, 相信大家也都是这么做的.</p>
+<pre class="prettyprint javascript">
+var arr = [1, 2, 3, 4];
+console.log(arr.length);
+arr.push(5);
+console.log(arr.length);
+</pre>
+
+<p>但是, 这么做就不会被 length 忽悠了么?... 呵呵呵呵, 由于在js中用字面量可以构建出一个这样的数组:</p>
+<pre class="prettyprint javascript">
+var arr = [,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,];
+console.log(arr.length);    // 还真TM有值, 但内部的所有东西都是 undefined
+</pre>
+<p>所以我曾经犯过这样一个低级错误: </p>
+<pre class="prettyprint javascript">
+// 话说曾经有个很大的数组
+var cities = [
+	'北京', '上海', '深圳',
+	// .....  
+	// 很大很长, 忽略其中一百多项
+	'杭州', '厦门', '拉萨',    // 整理这么多代码时手抖了下, 多加了个逗号
+]
+</pre>
+<p>在那么一大片的代码里就多了那么一个小小的逗号, 然后悲剧就发生了, length 总比真实的值大一, 总有个undefined
+幽灵般的存在. 当初可真是把我郁闷坏了, 哈哈!</p>
+<p>其实数组length的内部计算应该比我想象的复杂多了.</p>
+<h3>arguments 不是数组</h3>
+<p>arguments 是js方法在被调用的时候, 可以在方法体内调用的对象, 它以类似数组的形式包含了这个函数在被调用
+时传入的所有参数. 注意, 我说的是"类似"于数组, 它同样也可以通过下标访问里面的值, 也有length属性, 但它真不是
+数组, 原因很简单, 因为这个对象的原型并不指向 Array.prototype, 因此也无法调用js原生的数组操作方法. 那么, 
+arguments 究竟是什么呢? 好吧, 它就是它自己, 一个普通的对象而已, 你也别因为得它有个length属性就觉得它是
+Array的私生子, 这个length是个假的, 普通属性而已, 你要是闲的蛋疼, 把它改成一坨屎都行(数组的length好像是不能
+如此调戏的吧):</p>
+<pre class="prettyprint javascript">
+(function() {
+	arguments.length = '亲, 你节操何在啊!!!';
+	console.log(arguments.length);
+})(33, 44, 55, 6);
+</pre>
+<p>但是arguments 由于与数组有着相同的存储结构, 所以所有的数组的原生方法通过 call 依然是可以操作arguments的, 
+于是乎, 如果去看网上别人的代码, 就会经常看到类似 Array.prototype.slice.call(arguments, 1) 这样的代码,
+其实人家只是想把 arguments 当数组分片而已. 所以当你在某大牛里代码看见了如此气势磅礴语句之后也不要瞪圆了眼睛露出一副
+不明觉厉的表情, 因为人家其实也不想干这种戴着手套抠鼻屎的事</p>
+
+<h3>坑爹的parseInt</h3>
+<p>这函数的第二个参数可以指定以相应的进制来把字符转换成数字, 比如输入2就按二进制转换, 如果你不输入第二个参数, 
+那么它就会有一个很"贴心"的服务, 那就是它会自己判断你输入的字符串是十六进制数还是十进制数, 还是其他什么进制:</p>
+<pre class="prettyprint javascript">
+parseInt('1234')	// 十进制
+parseInt('0xFF')	// 十六进制
+parseInt('0123')	// 八进制
+parseInt('110101', 2)  // 妥妥的
+</pre>
+<p>单纯这么看好像并没什么不对的, 其实问题就出在八进制上面. 因为八进制数的表示就是在前面加了个零, 很容易和十进制混淆. 
+如果是C程序员, 这些都不是问题, 但是作为一个js程序员, 几乎是用不到八进制的, 相反, 为了让某些数据在页面显示上更加
+美观, 往往会有一些以0开头的十进制数出现, 比如一些表格序号, 人员编号之类的. 所以在解析此类数字字符时, 往往解析出来的
+东西并非是自己想要的, 这就非常坑爹了. 所以在解析以零开头的数字时, 一定要通过第二个参数强制指定用10进制转换: </p>
+<pre class="prettyprint javascript">
+parseInt('0123', 10);
+</pre>
+<p>这个问题我在一年半前遇到过, 好像当时在所有浏览器上都普遍存在, 但是现在较新版本的chrome, IE9, IE10 上好像已经
+解决了这个问题, 但是IE9以下的IE依然存在.</p>
+</div>

@@ -1,0 +1,35 @@
+.posts-box {
+	margin: 0px 0px 0px 30px;
+	width: 650px;
+}
+
+.posts-box p {
+	text-indent: 40px;
+	line-height: 24px;
+}
+
+.posts-box em {
+	color: #aaa;
+	margin-right: 30px;
+}
+
+.posts-box .info {
+	border-bottom: 1px #aaa dashed;
+	margin: 3px 0px;
+	padding: 3px 0px;
+}
+
+.posts-lists {
+	float: right;
+	width: 230px;
+}
+
+.posts-lists ul {
+	margin: 0px 0px 0px 10px;
+	padding: 0px;
+}
+
+.posts-lists li {
+	list-style: none;
+	line-height: 30px;
+}
