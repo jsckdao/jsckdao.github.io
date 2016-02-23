@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css">
+     @font-face {
+         font-family: 'BYLiuTy';
+         src: url('fonts/font1.ttf');
+     }
+
+     body {
+/*         background-color: #FAD689; */
+     }
+     
+     .content {
+         max-width: 500px;
+         background: url('fonts/pg.png');
+         padding: 0px 5px;
+     }
+
+     .content p {
+         font-family: 'BYLiuTy';
+         line-height: 33px;
+         margin: 0px;
+         text-indent: 30px;
+     }
+     .loading {
+         position: fixed;
+         top: 45%;
+         width: 100%;
+         text-align: center;
+     }
+    </style>
+    <script type="text/javascript" src="fonts/jquery.js"></script>
+    <script type="text/javascript">
+     $(function() {
+       $('.loading').fadeOut();
+       $('.content').fadeIn();
+     });
+    </script>
+  </head>
+  <body>
+    <audio src="fonts/Guitar.mp3" preoad loop autoplay></audio>
+    <div class="loading" >
+      loading ..... 
+    </div>
+    <div class="content" style="display: none;">
+      <p>当我在旅途中拿起笔，记下一些细碎往事的片段那刻开始，或是在睡不着的夜里起身，敲着键盘打出藏在心里的字句时，我知道这样的习惯，与一个地方有关，这些文字，似乎也只能放在这个地方，换了另外的空间，似乎都不算适合。</p>
+      <p>想到有天夜里，我对他说，那天我们见面的时候，我其实远远地已经望见你，但我不动声色地装作没有看到，只等你靠过来，先跟我开口说话。</p>
+
+      <p>所以你看，我就是这样一个连重逢都怕尴尬的人，却在这里拉拉杂杂的写了这么多，很多甚至不曾开口对身边人讲的事。</p>
+
+      <p>这是我与豆瓣的缘分，像是影片里的人，某些时刻里，我们都是自我分裂出的一个面向，存在于这样的一个空间，在有限的时间中的得到自由，才能在另外无限的时间中，得以平衡许多的不自由。</p>
+
+      <p>我们的父辈师长，亲友同僚，以及所有那些没有秘密负担的人，是无法理解这样一种分裂的意义。身处在多数的，人格统一的人群中，我常感到压抑，感到身体在很多时候就要分崩离析，我需要一些变态的人格，用以约束自身，进而成为一个普遍意义上的“正常人”。</p>
+
+      <p>是的，在豆瓣中，就是我变态人格中的一种。这里的我，清澈到近乎透明，而在其它的许多空间中，我的另外面目，又同时存在着，或混沌，或消极，然而每一个都是真实的我。</p>
+
+      <p>这是豆瓣带给我的第一重意义。</p>
+    </div>
+  </body>
+</html>
