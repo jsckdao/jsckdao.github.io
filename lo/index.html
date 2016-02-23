@@ -5,10 +5,29 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title></title>
-    <meta name="viewport" content="width=device-width" />
-    <link href="fonts/style.css" rel="stylesheet" id="style"/>
+    <meta name="viewport" content="width=device-width">
     <style type="text/css">
-    
+
+     @font-face {
+         font-family: 'BYLiuTy';
+         src: url('fonts/font1.ttf');
+     }
+
+     .content {
+         font-family: 'BYLiuTy';
+         font-size: 18px;
+         max-width: 500px;
+         background: url('fonts/pg.png');
+         padding: 0px 5px;
+     }
+
+     .content p {
+         line-height: 33px;
+         margin: 0px;
+         text-indent: 30px;
+     }
+
+     
      .loading {
          position: fixed;
          top: 45%;
@@ -18,6 +37,63 @@
     </style>
     <script type="text/javascript" src="fonts/jquery.js"></script>
     <script type="text/javascript">
+     (function($) {
+
+       $.fontSpy = function( element, conf ) {
+         var $element = $(element);
+         var emptyFn = function() {};
+         var defaults = {
+           font: $element.css("font-family"),
+           onLoad: emptyFn,
+           onFail: emptyFn,
+           testFont: 'Comic Sans MS',
+           testString: 'QW@HhsXJ 然后这是一段测试字符串 ',
+           delay: 50,
+           timeOut: 2500
+         };
+         var config = $.extend( defaults, conf );
+         var tester = document.createElement('span');
+         tester.style.position = 'absolute';
+         tester.style.top = '-9999px';
+         tester.style.left = '-9999px';
+         tester.style.visibility = 'hidden';
+         tester.style.fontFamily = config.testFont;
+         tester.style.fontSize = '250px';
+         tester.innerHTML = config.testString;
+         document.body.appendChild(tester);
+         var fallbackFontWidth = tester.offsetWidth;
+         var fallbackFontHeight = tester.offsetHeight;
+         tester.style.fontFamily = config.font; // + ',' + config.testFont;
+         function checkFont() {
+           var loadedFontWidth = tester.offsetWidth;
+           var loadedFontHeight = tester.offsetHeight;
+           if (fallbackFontWidth === loadedFontWidth && fallbackFontHeight === loadedFontWidth){
+             if(config.timeOut < 0) {
+               config.onFail.call(element);
+             }
+             else {
+               setTimeout(checkFont, config.delay);
+               config.timeOut = config.timeOut - config.delay;
+             }
+           }
+           else {
+             config.onLoad.call(element);
+           }
+         }
+         checkFont();
+       };
+
+       $.fn.fontSpy = function(config) {
+         return this.each(function() {
+           if (undefined == $(this).data('fontSpy')) {
+             var plugin = new $.fontSpy(this, config);
+             $(this).data('fontSpy', plugin);
+           }
+         });
+       };
+
+     })(jQuery);
+
      
      $(function() {
        var i = 0;
@@ -30,7 +106,9 @@
        }
        
        $('#audio').bind('play', _init);
-       $('#style').bind('load', _init);
+       $('.content').fontSpy({
+         onLoad: _init
+       });
      });
     </script>
   </head>
