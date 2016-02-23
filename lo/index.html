@@ -17,13 +17,15 @@
      }
      
      .content {
+         font-family: 'BYLiuTy';
+         font-size: 18px;
          max-width: 500px;
          background: url('fonts/pg.png');
          padding: 0px 5px;
+        
      }
 
      .content p {
-         font-family: 'BYLiuTy';
          line-height: 33px;
          margin: 0px;
          text-indent: 30px;
@@ -37,16 +39,83 @@
     </style>
     <script type="text/javascript" src="fonts/jquery.js"></script>
     <script type="text/javascript">
+     (function($) {
+
+       $.fontSpy = function( element, conf ) {
+         var $element = $(element);
+         var emptyFn = function() {};
+         var defaults = {
+           font: $element.css("font-family"),
+           onLoad: emptyFn,
+           onFail: emptyFn,
+           testFont: 'Comic Sans MS',
+           testString: 'QW@HhsXJ',
+           delay: 50,
+           timeOut: 2500
+         };
+         var config = $.extend( defaults, conf );
+         var tester = document.createElement('span');
+         tester.style.position = 'absolute';
+         tester.style.top = '-9999px';
+         tester.style.left = '-9999px';
+         tester.style.visibility = 'hidden';
+         tester.style.fontFamily = config.testFont;
+         tester.style.fontSize = '250px';
+         tester.innerHTML = config.testString;
+         document.body.appendChild(tester);
+         var fallbackFontWidth = tester.offsetWidth;
+         tester.style.fontFamily = config.font + ',' + config.testFont;
+         function checkFont() {
+           var loadedFontWidth = tester.offsetWidth;
+           if (fallbackFontWidth === loadedFontWidth){
+             if(config.timeOut < 0) {
+               config.onFail.call(element);
+             }
+             else {
+               setTimeout(checkFont, config.delay);
+               config.timeOut = config.timeOut - config.delay;
+             }
+           }
+           else {
+             config.onLoad.call(element);
+           }
+         }
+         checkFont();
+       };
+
+       $.fn.fontSpy = function(config) {
+         return this.each(function() {
+           if (undefined == $(this).data('fontSpy')) {
+             var plugin = new $.fontSpy(this, config);
+             $(this).data('fontSpy', plugin);
+           }
+         });
+       };
+
+     })(jQuery);
+
+     
      $(function() {
-       $('.loading').fadeOut();
-       $('.content').fadeIn();
+       var i = 0;
+       var _init = function() {
+         console.log('loaded ', this);
+         if (++i >= 2) {
+           $('.loading').fadeOut();
+           $('.content').fadeIn();
+         }
+       }
+       
+       $('#audio').bind('play', _init);
+       $('.content').fontSpy({
+         onLoad: _init
+       });
      });
     </script>
   </head>
   <body>
-    <audio src="fonts/Guitar.mp3" preoad loop autoplay></audio>
+    <audio id="audio" src="fonts/Guitar.mp3" preoad loop autoplay></audio>
     <div class="loading" >
-      loading ..... 
+      加载中 ..... 
     </div>
     <div class="content" style="display: none;">
       <p>当我在旅途中拿起笔，记下一些细碎往事的片段那刻开始，或是在睡不着的夜里起身，敲着键盘打出藏在心里的字句时，我知道这样的习惯，与一个地方有关，这些文字，似乎也只能放在这个地方，换了另外的空间，似乎都不算适合。</p>
