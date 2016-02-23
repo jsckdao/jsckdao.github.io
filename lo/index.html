@@ -7,14 +7,14 @@
     <title></title>
     <meta name="viewport" content="width=device-width">
     <style type="text/css">
-     /* 
-        @font-face {
-        font-family: 'BYLiuTy';
-        src: url('fonts/font1.ttf');
-        } */
+
+     @font-face {
+         font-family: 'BYLiuTy';
+         src: url('fonts/font1.ttf');
+     }
 
      .content {
-         /*font-family: 'BYLiuTy';*/
+         font-family: 'BYLiuTy';
          font-size: 18px;
          max-width: 500px;
          background: url('fonts/pg.png');
@@ -99,16 +99,16 @@
        var i = 0;
        var _init = function() {
          console.log('loaded ', this);
-         if (++i >= 1) {
+         if (++i >= 2) {
            $('.loading').fadeOut();
            $('.content').fadeIn();
          }
        }
        
        $('#audio').bind('play', _init);
-       /* $('.content').fontSpy({
-          onLoad: _init
-          }); */
+       $('.content').fontSpy({
+         onLoad: _init
+       });
      });
     </script>
   </head>
