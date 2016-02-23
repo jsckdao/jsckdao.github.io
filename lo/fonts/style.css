@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'BYLiuTy';
+    src: url('font1.ttf');
+}
+
+.content {
+    font-family: 'BYLiuTy';
+    font-size: 18px;
+    max-width: 500px;
+    background: url('pg.png');
+    padding: 0px 5px;
+}
+
+.content p {
+    line-height: 33px;
+    margin: 0px;
+    text-indent: 30px;
+}
